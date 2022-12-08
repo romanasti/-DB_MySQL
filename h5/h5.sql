@@ -1,0 +1,74 @@
+-- Сreating a database
+
+CREATE SCHEMA h5 ;
+USE h5;
+
+-- Create a table
+
+CREATE TABLE  AUTO 
+(       
+	REGNUM VARCHAR(10) PRIMARY KEY, 
+	MARK VARCHAR(10), 
+	COLOR VARCHAR(15),
+	RELEASEDT DATE, 
+	PHONENUM VARCHAR(15)
+);
+
+-- AUTO
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM )
+VALUES(111114,'LADA', 'КРАСНЫЙ', date'2008-01-01', '9152222221'),
+VALUES(111115,'VOLVO', 'КРАСНЫЙ', date'2013-01-01', '9173333334'),
+VALUES(111116,'BMW', 'СИНИЙ', date'2015-01-01', '9173333334'),
+VALUES(111121,'AUDI', 'СИНИЙ', date'2009-01-01', '9173333332'),
+VALUES(111122,'AUDI', 'СИНИЙ', date'2011-01-01', '9213333336'),
+VALUES(111113,'BMW', 'ЗЕЛЕНЫЙ', date'2007-01-01', '9214444444'),
+VALUES(111126,'LADA', 'ЗЕЛЕНЫЙ', date'2005-01-01', null),
+VALUES(111117,'BMW', 'СИНИЙ', date'2005-01-01', null),
+VALUES(111119,'LADA', 'СИНИЙ', date'2017-01-01', 9213333331);
+
+-- Task 1
+-- Create a view that gets cars worth up to $25,000
+
+    -- add the Price field
+
+ALTER TABLE AUTO ADD COLUMN PRISE DECIMAL;
+
+    -- fill in the Price field
+
+UPDATE AUTO SET PRISE  = (20000) WHERE REGNUM = 111113;
+UPDATE AUTO SET PRISE  = (21000) WHERE REGNUM = 111114;
+UPDATE AUTO SET PRISE  = (35000) WHERE REGNUM = 111115;
+UPDATE AUTO SET PRISE  = (32000) WHERE REGNUM = 111116;
+UPDATE AUTO SET PRISE  = (39000) WHERE REGNUM = 111117;
+UPDATE AUTO SET PRISE  = (13000) WHERE REGNUM = 111119;
+UPDATE AUTO SET PRISE  = (24000) WHERE REGNUM = 111121;
+UPDATE AUTO SET PRISE  = (37000) WHERE REGNUM = 111122;
+UPDATE AUTO SET PRISE  = (22000) WHERE REGNUM = 111126;
+
+-- cars worth up to $25,000
+
+CREATE VIEW auto_view AS
+SELECT * FROM auto
+WHERE PRISE < 25000;
+
+-- Task 2
+-- Change the threshold for value in an existing view
+-- let the price be up to $30,000 (using the ALTER VIEW operator)
+
+CREATE VIEW auto_view AS
+SELECT * FROM auto
+WHERE PRISE < 30000;    
+
+-- Task 3
+-- Create a view with only Skoda and Audi cars
+
+    -- add Skoda brand cars
+
+INSERT INTO AUTO (REGNUM, MARK,	COLOR, RELEASEDT, PHONENUM, PRISE)
+VALUES (111123,'SKODA', 'СИНИЙ', '2003-01-01', null, 24000);
+
+CREATE VIEW Skoda_Audi AS
+SELECT * FROM AUTO
+WHERE MARK = "SKODA" OR MARK = "AUDI";
+
+
